@@ -1,15 +1,22 @@
 #!/bin/bash
 
 while true; do
-    arkeod tx distribution withdraw-all-rewards \
-  --commission \
-  --chain-id arkeo-testnet-3 \
-  --fees 5000uarkeo \
-  --from $WALLET
-    sleep 60
-    arkeod tx staking delegate $ARKEO_VALOPER_ADDRESS $(( $(arkeod q bank balances $ARKEO_WALLET_ADDRESS -o json | jq -r '.balances[0].amount') - 100000000 ))uarkeo \
+    echo "y" | arkeod tx distribution withdraw-rewards "$(arkeod keys show wallet --bech val -a)" \
+    --commission \
     --chain-id arkeo-testnet-3 \
-    --from $WALLET \
-    --fees=5000uarkeo
-    sleep 60
+    --fees 5000uarkeo \
+    --from "$WALLET" \
+    --keyring-backend test
+    echo !!!!!!CLAIM ALL REVARDS!!!!!!
+
+    sleep 300
+
+    echo "y" | arkeod tx staking delegate "$ARKEO_VALOPER_ADDRESS" $(( $(arkeod q bank balances "$ARKEO_WALLET_ADDRESS">
+    --chain-id arkeo-testnet-3 \
+    --from "$WALLET" \
+    --fees=5000uarkeo \
+    --keyring-backend test
+    echo !!!!!!STAKE!!!!!!
+
+    sleep 300
 done
